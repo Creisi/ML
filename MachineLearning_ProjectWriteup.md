@@ -9,29 +9,8 @@ The data was downloaded and loaded into R.  Set seed was set to 19662 for reprod
 
 ```r
 set.seed(19622)
-training<-read.csv("pml-training.csv")
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'pml-training.csv': No such
-## file or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
-```r
-testing<-read.csv("pml-testing.csv")
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'pml-testing.csv': No such
-## file or directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
+training<-read.csv("C:/Users/Chris/ML/pml-training.csv")
+testing<-read.csv("C:/Users/Chris/ML/pml-testing.csv")
 ```
 
 ## Preprocessing the Data
@@ -40,45 +19,13 @@ In looking at the data, I noticed there were a lot of NA values.  I felt that if
 
 ```r
 Num<-training[,7:159]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'training' not found
-```
-
-```r
 for (i in 1:length(names(training[,7:159]))){
         Num[,i]<-as.numeric(as.character(Num[,i]))
 }
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'training' not found
-```
-
-```r
 training[,7:159]<-Num
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'Num' not found
-```
-
-```r
 NAthreshold<-sapply(training,function(x)
         (sum(is.na(x))/length(x)>.70))
-```
-
-```
-## Error in lapply(X = X, FUN = FUN, ...): object 'training' not found
-```
-
-```r
 training<-training[,NAthreshold==FALSE]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'training' not found
 ```
 
 ## Testing for Correlations
@@ -94,19 +41,10 @@ library(corrplot)
 
 ```r
 M<-cor(training[,7:59],use="complete.obs",method="pearson")
-```
-
-```
-## Error in is.data.frame(x): object 'training' not found
-```
-
-```r
 corrplot(M,method="square",tl.cex=.5)
 ```
 
-```
-## Error in corrplot(M, method = "square", tl.cex = 0.5): object 'M' not found
-```
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 ## Cross Validation
 Because of the large amount of data, I expected to have a hight amount of accuracy.  For any model to be accepted I would want at least a 90% accuracy rate.  Because the predicictions are factor varuables, I decided to evaluate my models based on accuracy rather than a different model evaluator.  Given the amount data to train the models, I felt it was not unreasonable to epect that one of them could have less than 10% error rate.  This means that I would most likely have no more than 2 wrong in the testing data set. To cross validate the results in the testing, I decided to use Random subsampling.  I took 20% of the training data and set it aside.  I would create my models based on 80% of the training data and test the models on the 20% before using the models on the 20 cases of testing data.
@@ -122,26 +60,8 @@ library(caret);library(ggplot2)
 
 ```r
 inTrain<-createDataPartition(y=training$classe,p=.8,list=FALSE)
-```
-
-```
-## Error in createDataPartition(y = training$classe, p = 0.8, list = FALSE): object 'training' not found
-```
-
-```r
 train.train<-training[inTrain,]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'training' not found
-```
-
-```r
 train.test<-training[-inTrain,]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'training' not found
 ```
 
 ## Model Building
@@ -211,10 +131,6 @@ I needed to reduce the test data set down to the same columns I used in my train
 
 ```r
 finTest<-testing[,NAthreshold==FALSE]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'testing' not found
 ```
 ## Running it through the model
 Last step was to run it through the model

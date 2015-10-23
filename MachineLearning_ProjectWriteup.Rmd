@@ -8,8 +8,8 @@ The goal of this project was to take almost 20,000 rows of tesing data from wear
 The data was downloaded and loaded into R.  Set seed was set to 19662 for reproducability.
 ````{r cache=TRUE}
 set.seed(19622)
-training<-read.csv("pml-training.csv")
-testing<-read.csv("pml-testing.csv")
+training<-read.csv("C:/Users/Chris/ML/pml-training.csv")
+testing<-read.csv("C:/Users/Chris/ML/pml-testing.csv")
 ````
 
 ## Preprocessing the Data
